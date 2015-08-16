@@ -1,0 +1,10 @@
+{
+  "name": "QuickPrints",
+  "version": "0.1.0",
+  "title": "QuickPrints",
+  "author": "erisco",
+  "contact": "eric.brisco@gmail.com",
+  "homepage": "http://github.com/erisco/quickprints",
+  "description": "Makes blueprints usable and convenient early in the game.",
+  "dependencies": ["base >= 0.12.0"]
+}
