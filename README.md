@@ -18,7 +18,17 @@ Then, either clone this repository into the `QuickPrints_version` directory or c
 
 For more information, read "[Modding Overview](http://www.factorioforums.com/wiki/index.php?title=Modding_overview)" from the Factorio Wiki.
 
-## How to use
+## How to use (GUI)
+
+When in-game, click the `QuickPrints` button. This button should be on the top of your screen. If not, see the `init` command in section "How to use (console)".
+
+  - `On` Enables QuickPrints mode for yourself.
+  - `Off` Disables QuickPrints mode for yourself.
+  - `Give Blueprint` Give yourself an empty blueprint.
+  - `Unlock Research` Unlocks the "Automated Construction" research.
+  - `Help` Prints help information to the console.
+
+## How to use (console)
 
 These are all commands that you type into the in-game console -- you must have a game loaded to access it. The default key to open and close the console is tilde, i.e. `~`.
 
@@ -33,6 +43,10 @@ Unlock "Automated Construction" research:
 Give a player a blueprint:
 
     /c remote.call("qp","blueprint",player_index)
+
+Initialise QuickPrints for a player. This should be done automatically, but in case something goes awry you can call this manually:
+
+    /c remote.call("qp","init",player_index)
 
 Enable, disable, and toggle QuickPrints mode:
 
