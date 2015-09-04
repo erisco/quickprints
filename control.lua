@@ -49,21 +49,33 @@ function make_corporeal(ghost)
     properties.recipe = ghost.recipe.name
   end
   if ghost.ghost_type == "container" then
-    properties.bar = ghost.bar
+    -- Catch exception from bug:
+    --   http://www.factorioforums.com/forum/viewtopic.php?f=7&t=15525
+    pcall(function ()
+      properties.bar = ghost.bar
+    end)
   end
   if ghost.ghost_type == "flying-text" then
     properties.text = ghost.text
     properties.color = ghost.color
   end
   if ghost.ghost_name == "smart-inserter" then
-    properties.conditions = ghost.conditions
-    properties.filters = ghost.filters
+    -- Catch exception from bug:
+    --   http://www.factorioforums.com/forum/viewtopic.php?f=7&t=15525
+    pcall(function ()
+      properties.conditions = ghost.conditions
+      properties.filters = ghost.filters
+    end)
   end
   if ghost.ghost_type == "item-entity" then
     properties.stack = ghost.stack
   end
   if ghost.ghost_type == "logistic-container" then
-    properties.requestfilters = ghost.requestfilters
+    -- Catch exception from bug:
+    --   http://www.factorioforums.com/forum/viewtopic.php?f=7&t=15525
+    pcall(function ()
+      properties.requestfilters = ghost.requestfilters
+    end)
   end
   if ghost.ghost_type == "particle" then
     properties.movement = ghost.movement
@@ -83,6 +95,8 @@ function make_corporeal(ghost)
     -- that this code begins working as soon as the bug is fixed. Until
     -- then, these transport belts will always be "input" i.e.
     -- from-ground-to-underground.
+    -- Note: now there is this more general bug
+    -- http://www.factorioforums.com/forum/viewtopic.php?f=7&t=15525
     pcall(function ()
       properties.belt_to_ground_type = entity.belt_to_ground_type
     end)
