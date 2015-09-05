@@ -226,10 +226,9 @@ game.on_event(defines.events.on_tick, function()
     local nearbyEntities = game.get_surface(1)
       .find_entities{minCorner, maxCorner}
     for _, entity in pairs(nearbyEntities) do
-      -- Have had rare crashes where the "LuaEntity was invalid" so now
-      -- there is an added check that "entity" is truthy before
-      -- attempting to read ".name".
-      if entity and entity.name == "entity-ghost" then
+      -- For what "entity.valid" does see:
+      -- http://www.factorioforums.com/forum/viewtopic.php?f=23&t=15530
+      if entity.valid and entity.name == "entity-ghost" then
         local stack = {
             name  = entity.ghost_name
           , count = 1
