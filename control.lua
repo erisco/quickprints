@@ -49,33 +49,45 @@ function make_corporeal(ghost)
     properties.recipe = ghost.recipe.name
   end
   if ghost.ghost_type == "container" then
-    -- Catch exception from bug:
-    --   http://www.factorioforums.com/forum/viewtopic.php?f=7&t=15525
-    pcall(function ()
-      properties.bar = ghost.bar
-    end)
+    -- No way to get the container bar right now.
+    -- Talked to Rseding91 and this should be in for 0.12.7
   end
   if ghost.ghost_type == "flying-text" then
     properties.text = ghost.text
     properties.color = ghost.color
   end
   if ghost.ghost_name == "smart-inserter" then
-    -- Catch exception from bug:
-    --   http://www.factorioforums.com/forum/viewtopic.php?f=7&t=15525
-    pcall(function ()
-      properties.conditions = ghost.conditions
-      properties.filters = ghost.filters
-    end)
+    -- Figured out these using:
+    --   serpent.dump(blueprint.get_blueprint_entities())
+    local conditions =
+      { circuit = ghost.get_circuit_condition(1).condition
+      , logistics = ghost.get_circuit_condition(2).condition
+      }
+    local filters = {}
+    for i=1,5 do
+      filters[i] = { index = i, name = ghost.get_filter(i) }
+    end
+    properties.conditions = conditions
+    properties.filters = filters
   end
   if ghost.ghost_type == "item-entity" then
     properties.stack = ghost.stack
   end
-  if ghost.ghost_type == "logistic-container" then
-    -- Catch exception from bug:
-    --   http://www.factorioforums.com/forum/viewtopic.php?f=7&t=15525
-    pcall(function ()
-      properties.requestfilters = ghost.requestfilters
-    end)
+  if ghost.ghost_name == "logistic-chest-requester" then
+    -- Figured out these using:
+    --   serpent.dump(blueprint.get_blueprint_entities())
+    local request_filters = {}
+    -- There are 10 request slots on a requester chest, starting at
+    -- index 1.
+    for i=1,10 do
+      local slot = ghost.get_request_slot(i)
+      request_filters[i] = 
+        { index = i
+        , name  = slot.name
+        , count = slot.count
+        }
+    end
+    properties.request_filters = request_filters
   end
   if ghost.ghost_type == "particle" then
     properties.movement = ghost.movement
@@ -100,6 +112,9 @@ function make_corporeal(ghost)
     pcall(function ()
       properties.belt_to_ground_type = entity.belt_to_ground_type
     end)
+  end
+  if ghost.ghost_type == "electric-pole" then
+    -- No way to get neighbours right now (to create logic wires).
   end
   
   -- We have to make sure the entity won't collide with other objects.
